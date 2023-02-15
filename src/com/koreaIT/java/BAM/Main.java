@@ -39,11 +39,31 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 				
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, "2023-02-15 14:14:30",title, body);
 				articles.add(article);
 				
 				lastarticleid = id;
 				System.out.printf("%d번 글이 생성되었습니다.\n",id);
+			}
+			else if(cmd.startsWith("article detail")) {
+				String[] cmdBits = cmd.split(" ");
+				int searchID = Integer.parseInt(cmdBits[2]);
+				Article foundarticle = null;
+				for (int i = 0 ; i < articles.size() ; i++) {
+					Article article = articles.get(i);
+					if (searchID == article.id) {
+						foundarticle = article;
+						break;
+					}
+				}
+				if (foundarticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
+					continue;
+				}
+				System.out.printf("번호 : %d\n",foundarticle.id);
+				System.out.printf("날짜 : %s\n",foundarticle.regDate);
+				System.out.printf("제목 : %s\n",foundarticle.title);
+				System.out.printf("내용 : %s\n",foundarticle.body);
 			}
 			else if(cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
@@ -60,11 +80,13 @@ public class Main {
 
 class Article {
 	int id;
+	String regDate;
 	String title;
 	String body;
 	
-	public Article(int id, String title, String body) {
+	public Article(int id, String regDate, String title, String body) {
 		this.id = id;
+		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
 	}
