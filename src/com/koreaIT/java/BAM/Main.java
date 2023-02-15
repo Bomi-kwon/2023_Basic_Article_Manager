@@ -21,7 +21,16 @@ public class Main {
 				break;
 			}
 			else if(cmd.equals("article list")) {
-				System.out.println("게시글이 없습니다.");
+				
+				if (articles.size() == 0) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+				System.out.println("번호	|	제목");
+				for(int i = articles.size()-1 ; i >= 0 ; i--) {
+					Article article = articles.get(i);
+					System.out.printf("%d	|	%s\n",article.id,article.title);
+				}
 			}
 			else if(cmd.equals("article write")) {
 				int id = lastarticleid + 1;
@@ -31,8 +40,9 @@ public class Main {
 				String body = sc.nextLine();
 				
 				Article article = new Article(id, title, body);
+				articles.add(article);
 				
-				id = lastarticleid;
+				lastarticleid = id;
 				System.out.printf("%d번 글이 생성되었습니다.\n",id);
 			}
 			else if(cmd.length() == 0) {
