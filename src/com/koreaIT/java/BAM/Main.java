@@ -26,10 +26,10 @@ public class Main {
 					System.out.println("게시물이 존재하지 않습니다.");
 					continue;
 				}
-				System.out.println("번호	|	제목");
+				System.out.println("번호	|	제목	|	날짜	|	조회수");
 				for(int i = articles.size()-1 ; i >= 0 ; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d	|	%s\n",article.id,article.title);
+					System.out.printf("%d	|	%s	|	%s|	%d\n",article.id,article.title,article.regDate.substring(0, 10),article.Hit);
 				}
 			}
 			else if(cmd.equals("article write")) {
@@ -38,14 +38,47 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
+				String regDate = Util.getDate();
 				
-				Article article = new Article(id, "2023-02-15 14:14:30",title, body);
+				Article article = new Article(id, regDate,title, body);
 				articles.add(article);
 				
 				lastarticleid = id;
 				System.out.printf("%d번 글이 생성되었습니다.\n",id);
 			}
-			else if(cmd.startsWith("article detail")) {
+			else if(cmd.startsWith("article modify ")) {
+				String[] cmdBits = cmd.split(" ");
+				int searchID = Integer.parseInt(cmdBits[2]);
+				
+				Article foundarticle = null;
+				
+				for (int i = 0 ; i < articles.size() ; i++) {
+					Article article = articles.get(i);
+					if (searchID == article.id) {
+						foundarticle = article;
+						break;
+					}
+				}
+				
+				if (foundarticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
+					continue;
+				}
+				
+				System.out.printf("수정할 제목 : ");
+				String title = sc.nextLine();
+				System.out.printf("수정할 내용 : ");
+				String body = sc.nextLine();
+				String regDate = Util.getDate();
+				
+				foundarticle.title = title;
+				foundarticle.body = body;
+				foundarticle.regDate = regDate;
+				
+				System.out.printf("%d번 글이 수정되었습니다.\n",searchID);
+			}
+			
+			else if(cmd.startsWith("article detail ")) {
 				String[] cmdBits = cmd.split(" ");
 				int searchID = Integer.parseInt(cmdBits[2]);
 				Article foundarticle = null;
@@ -60,10 +93,35 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
 					continue;
 				}
+				foundarticle.Hit++;
 				System.out.printf("번호 : %d\n",foundarticle.id);
-				System.out.printf("날짜 : %s\n",foundarticle.regDate);
+				System.out.printf("날짜 : %s\n",foundarticle.regDate.substring(0, 10));
 				System.out.printf("제목 : %s\n",foundarticle.title);
 				System.out.printf("내용 : %s\n",foundarticle.body);
+				System.out.printf("조회수 : %d\n",foundarticle.Hit);
+			}
+			else if(cmd.startsWith("article delete ")) {
+				String[] cmdBits = cmd.split(" ");
+				int searchID = Integer.parseInt(cmdBits[2]);
+				
+				Article foundarticle = null;
+				
+				for (int i = 0 ; i < articles.size() ; i++) {
+					Article article = articles.get(i);
+					if (searchID == article.id) {
+						foundarticle = article;
+						break;
+					}
+				}
+				
+				if (foundarticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
+					continue;
+				}
+				
+				articles.remove(foundarticle);
+				
+				System.out.printf("%d번 게시물이 삭제되었습니다.\n",searchID);
 			}
 			else if(cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
@@ -83,11 +141,13 @@ class Article {
 	String regDate;
 	String title;
 	String body;
+	int Hit;
 	
 	public Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
+		this.Hit = 0;
 	}
 }
