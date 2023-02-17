@@ -26,7 +26,7 @@ public class Main {
 					System.out.println("게시물이 존재하지 않습니다.");
 					continue;
 				}
-				System.out.println("번호	|	제목	|	날짜	|	조회수");
+				System.out.println("번호	|	제목	|	날짜	  |	조회수");
 				for(int i = articles.size()-1 ; i >= 0 ; i--) {
 					Article article = articles.get(i);
 					System.out.printf("%d	|	%s	|	%s|	%d\n",article.id,article.title,article.regDate.substring(0, 10),article.Hit);
@@ -93,7 +93,9 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
 					continue;
 				}
+				
 				foundarticle.Hit++;
+				
 				System.out.printf("번호 : %d\n",foundarticle.id);
 				System.out.printf("날짜 : %s\n",foundarticle.regDate.substring(0, 10));
 				System.out.printf("제목 : %s\n",foundarticle.title);
@@ -143,7 +145,7 @@ class Article {
 	String body;
 	int Hit;
 	
-	public Article(int id, String regDate, String title, String body) {
+	Article(int id, String regDate, String title, String body) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
