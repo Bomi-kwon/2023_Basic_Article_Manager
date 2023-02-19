@@ -104,7 +104,8 @@ public class App {
 					continue;
 				}
 				
-				foundarticle.Hit++;
+//				foundarticle.Hit++;
+				foundarticle.increaseHit();
 				
 				System.out.printf("번호 : %d\n",foundarticle.id);
 				System.out.printf("날짜 : %s\n",foundarticle.regDate.substring(0, 10));

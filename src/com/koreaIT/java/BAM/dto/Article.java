@@ -18,4 +18,9 @@ public class Article {
 		this.body = body;
 		this.Hit = Hit;
 	}
+
+	public void increaseHit() {
+		this.Hit++;
+		
+	}
 }
