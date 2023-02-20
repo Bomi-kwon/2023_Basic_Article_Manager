@@ -13,7 +13,6 @@ public class App {
 	App() {
 		articles = new ArrayList<>();
 	}
-	Article foundarticle = null;
 	
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
@@ -64,7 +63,7 @@ public class App {
 				String[] cmdBits = cmd.split(" ");
 				int searchID = Integer.parseInt(cmdBits[2]);
 				
-				foundarticle = matched_article(searchID);
+				Article foundarticle = matched_article(searchID);
 				
 				if (foundarticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
@@ -88,7 +87,7 @@ public class App {
 				String[] cmdBits = cmd.split(" ");
 				int searchID = Integer.parseInt(cmdBits[2]);
 				
-				foundarticle = matched_article(searchID);
+				Article foundarticle = matched_article(searchID);
 				
 				if (foundarticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
@@ -108,7 +107,7 @@ public class App {
 				String[] cmdBits = cmd.split(" ");
 				int searchID = Integer.parseInt(cmdBits[2]);
 				
-				foundarticle = matched_article(searchID);
+				Article foundarticle = matched_article(searchID);
 				
 				if (foundarticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n",searchID);
@@ -132,10 +131,8 @@ public class App {
 	}
 
 	private Article matched_article(int searchID) {
-		for (int i = 0 ; i < articles.size() ; i++) {
-			Article article = articles.get(i);
+		for (Article article : articles) {
 			if (searchID == article.id) {
-				foundarticle = article;
 				return article;
 			}
 		}
