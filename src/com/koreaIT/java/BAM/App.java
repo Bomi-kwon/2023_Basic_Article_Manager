@@ -149,9 +149,23 @@ public class App {
 			}
 
 			else if (cmd.equals("member join")) {
-				System.out.printf("로그인 아이디 : ");
-				String loginID = sc.nextLine();
+				String loginID = null;
 				String loginPW = null;
+				while (true) {
+					System.out.printf("로그인 아이디 : ");
+					loginID = sc.nextLine();
+					boolean isloginableID = true;
+					for (Member member : members) {
+						if (loginID.equals(member.loginID)) {
+							System.out.println("해당 아이디는 이미 존재합니다.");
+							isloginableID = false;
+						}
+					}
+					if (isloginableID == false) {
+						continue;
+					}
+					break;
+				}
 				while (true) {
 					System.out.printf("로그인 비밀번호 : ");
 					loginPW = sc.nextLine();
@@ -169,9 +183,7 @@ public class App {
 
 				memberid++;
 				Member member = new Member(memberid, regDate, loginID, loginPW, name);
-
 				members.add(member);
-
 				System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
 			}
 
