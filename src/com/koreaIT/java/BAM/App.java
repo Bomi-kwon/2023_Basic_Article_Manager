@@ -114,7 +114,7 @@ public class App {
 					continue;
 				}
 				
-				articles.remove(foundarticle);
+				articles.remove(articles.indexOf(foundarticle));
 				
 				System.out.printf("%d번 게시물이 삭제되었습니다.\n",searchID);
 			}
