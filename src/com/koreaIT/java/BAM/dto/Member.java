@@ -1,4 +1,4 @@
-package com.koreaIT.java.BAM;
+package com.koreaIT.java.BAM.dto;
 
 public class Member {
 	int memberid;
