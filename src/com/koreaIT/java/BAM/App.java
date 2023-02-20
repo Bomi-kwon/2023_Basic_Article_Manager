@@ -10,9 +10,12 @@ import com.koreaIT.java.BAM.util.Util;
 
 public class App {
 	private List<Article> articles;
+	private List<Member> members;
+	
 
 	App() {
 		articles = new ArrayList<>();
+		members = new ArrayList<>();
 	}
 
 	public void run() {
@@ -22,6 +25,7 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 		int lastarticleid = 3;
+		int memberid = 0;
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -29,6 +33,10 @@ public class App {
 
 			if (cmd.equals("exit")) {
 				break;
+			}
+			
+			else if (cmd.length() == 0) {
+				System.out.println("명령어를 입력해주세요.");
 			}
 
 			else if (cmd.startsWith("article list")) {
@@ -39,11 +47,11 @@ public class App {
 				}
 
 				String searchBits = cmd.substring("article list".length()).trim();
-				List<Article> matched_articles = articles;
+				List<Article> matched_articles = new ArrayList<>(articles);
 
 				if (searchBits.length() > 0) {
 					
-					matched_articles = new ArrayList<>();
+					matched_articles.clear();
 					
 					for (Article article : articles) {
 						if (article.title.contains(searchBits)) {
@@ -122,7 +130,9 @@ public class App {
 				System.out.printf("제목 : %s\n", foundarticle.title);
 				System.out.printf("내용 : %s\n", foundarticle.body);
 				System.out.printf("조회수 : %d\n", foundarticle.Hit);
-			} else if (cmd.startsWith("article delete ")) {
+			} 
+			
+			else if (cmd.startsWith("article delete ")) {
 				String[] cmdBits = cmd.split(" ");
 				int searchID = Integer.parseInt(cmdBits[2]);
 
@@ -136,9 +146,29 @@ public class App {
 				articles.remove(articles.indexOf(foundarticle));
 
 				System.out.printf("%d번 게시물이 삭제되었습니다.\n", searchID);
-			} else if (cmd.length() == 0) {
-				System.out.println("명령어를 입력해주세요.");
-			} else {
+			} 
+			
+			else if (cmd.equals("member join")) {
+				memberid++;
+				System.out.printf("로그인 아이디 : ");
+				String loginID = sc.nextLine();
+				System.out.printf("로그인 비밀번호 : ");
+				String loginPW = sc.nextLine();
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+				String regDate = Util.getDate();
+
+				Member member = new Member(memberid, regDate, loginID, loginPW, name);
+				
+				members.add(member);
+
+				System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", loginID);
+			}
+			
+			
+			
+			
+			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 			}
 		}
