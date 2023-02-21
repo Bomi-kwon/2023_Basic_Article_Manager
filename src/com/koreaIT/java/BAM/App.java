@@ -151,11 +151,17 @@ public class App {
 			else if (cmd.equals("member join")) {
 				String loginID = null;
 				String loginPW = null;
+				String name = null;
 				int id = lastmemberid + 1;
 				lastmemberid = id;
+				
 				while (true) {
 					System.out.printf("로그인 아이디 : ");
-					loginID = sc.nextLine();
+					loginID = sc.nextLine().trim();
+					if (loginID.length() == 0) {
+						System.out.println("아이디를 입력해주세요.");
+						continue;
+					}
 					boolean isloginableID = true;
 					for (Member member : members) {
 						if (loginID.equals(member.loginID)) {
@@ -168,19 +174,32 @@ public class App {
 					}
 					break;
 				}
+				
 				while (true) {
 					System.out.printf("로그인 비밀번호 : ");
-					loginPW = sc.nextLine();
+					loginPW = sc.nextLine().trim();
+					if (loginPW.length() == 0) {
+						System.out.println("비밀번호를 입력해주세요.");
+						continue;
+					}
 					System.out.printf("로그인 비밀번호 확인 : ");
 					String loginPW_check = sc.nextLine();
-					if (loginPW_check.equals(loginPW)) {
-						break;
+					if (loginPW_check.equals(loginPW) == false) {
+						System.out.println("비밀번호가 일치하지 않습니다.");
+						continue;
 					}
-					System.out.println("비밀번호가 일치하지 않습니다.");
-					continue;
+					break;
 				}
-				System.out.printf("이름 : ");
-				String name = sc.nextLine();
+				
+				while(true) {
+					System.out.printf("이름 : ");
+					name = sc.nextLine().trim();
+					if (name.length() == 0) {
+						System.out.println("이름을 입력해주세요.");
+						continue;
+					}
+					break;
+				}
 				String regDate = Util.getDate();
 
 				id++;
