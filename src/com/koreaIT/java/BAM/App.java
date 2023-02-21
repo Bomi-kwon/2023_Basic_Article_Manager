@@ -25,7 +25,7 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 		int lastarticleid = 3;
-		int memberid = 0;
+		int lastmemberid = 0;
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -151,6 +151,8 @@ public class App {
 			else if (cmd.equals("member join")) {
 				String loginID = null;
 				String loginPW = null;
+				int id = lastmemberid + 1;
+				lastmemberid = id;
 				while (true) {
 					System.out.printf("로그인 아이디 : ");
 					loginID = sc.nextLine();
@@ -181,8 +183,8 @@ public class App {
 				String name = sc.nextLine();
 				String regDate = Util.getDate();
 
-				memberid++;
-				Member member = new Member(memberid, regDate, loginID, loginPW, name);
+				id++;
+				Member member = new Member(id, regDate, loginID, loginPW, name);
 				members.add(member);
 				System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
 			}
