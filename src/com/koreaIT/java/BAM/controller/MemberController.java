@@ -6,32 +6,36 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
-public class MemberController {
-	
-	List<Member> members;
-	Scanner sc;
-	int lastmemberid;
-	
+public class MemberController extends Controller {
+
+	private List<Member> members;
+	private int lastmemberid;
+
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
-		lastmemberid = 0;
+		lastmemberid = 3;
 	}
-	
-	public void run(String cmd) {
-		String[] cmdBits = cmd.split(" ");
-		if (cmdBits[1].equals("join")) {
+
+	public void run(String cmd, String methodname) {
+
+		switch (methodname) {
+		case "join":
 			this.dojoin();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
 		}
 	}
 
-	public void dojoin() {
+	private void dojoin() {
 		String loginID = null;
 		String loginPW = null;
 		String name = null;
 		int id = lastmemberid + 1;
 		lastmemberid = id;
-		
+
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
 			loginID = sc.nextLine().trim();
@@ -42,16 +46,17 @@ public class MemberController {
 			boolean isloginableID = true;
 			for (Member member : members) {
 				if (loginID.equals(member.loginID)) {
-					System.out.println("해당 아이디는 이미 존재합니다.");
+					System.out.printf("%s 는 이미 사용중인 아이디 입니다.\n", loginID);
 					isloginableID = false;
 				}
 			}
 			if (isloginableID == false) {
 				continue;
 			}
+			System.out.printf("%s 는 사용 가능한 아이디입니다.\n", loginID);
 			break;
 		}
-		
+
 		while (true) {
 			System.out.printf("로그인 비밀번호 : ");
 			loginPW = sc.nextLine().trim();
@@ -67,8 +72,8 @@ public class MemberController {
 			}
 			break;
 		}
-		
-		while(true) {
+
+		while (true) {
 			System.out.printf("이름 : ");
 			name = sc.nextLine().trim();
 			if (name.length() == 0) {
@@ -83,9 +88,16 @@ public class MemberController {
 		Member member = new Member(id, regDate, loginID, loginPW, name);
 		members.add(member);
 		System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
-		
+
 	}
 
-	
+	public void makeTestData() {
+
+		members.add(new Member(1, Util.getDate(), "admin", "123", "짱구"));
+		members.add(new Member(2, Util.getDate(), "test1", "456", "철수"));
+		members.add(new Member(3, Util.getDate(), "test2", "789", "훈이"));
+
+		System.out.println("회원 테스트 데이터를 생성합니다.");
+	}
 
 }

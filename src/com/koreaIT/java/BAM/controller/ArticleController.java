@@ -8,11 +8,10 @@ import java.util.Scanner;
 import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller{
 
-	List<Article> articles;
-	Scanner sc;
-	int lastarticleid;
+	private List<Article> articles;
+	private int lastarticleid;
 
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
@@ -20,26 +19,31 @@ public class ArticleController {
 		lastarticleid = 3;
 	}
 	
-	public void run(String cmd) {
-		String[] cmdBits = cmd.split(" ");
-		if (cmdBits[1].equals("list")) {
-			this.showlist(cmd);
-		}
-		if (cmdBits[1].equals("write")) {
+	public void run(String cmd, String methodname) {
+		
+		switch(methodname) {
+		case "list":
+			this.showlist();
+			break;
+		case "detail":
+			this.showdetail();
+			break;
+		case "write":
 			this.dowrite();
-		}
-		if (cmdBits[1].equals("modify")) {
-			this.domodify(cmd);
-		}
-		if (cmdBits[1].equals("detail")) {
-			this.showdetail(cmd);
-		}
-		if (cmdBits[1].equals("delete")) {
-			this.dodelete(cmd);
+			break;
+		case "modify":
+			this.domodify();
+			break;
+		case "delete":
+			this.dodelete();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
 		}
 	}
 	
-	public void showlist(String cmd) {
+	private void showlist() {
 		if (articles.size() == 0) {
 			System.out.println("게시물이 존재하지 않습니다.");
 			return;
@@ -70,7 +74,7 @@ public class ArticleController {
 		}
 	}
 
-	public void dowrite() {
+	private void dowrite() {
 		int id = lastarticleid + 1;
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -85,8 +89,14 @@ public class ArticleController {
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}
 
-	public void domodify(String cmd) {
+	private void domodify() {
 		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
 		Article foundarticle = matched_article(searchID);
@@ -109,8 +119,14 @@ public class ArticleController {
 		System.out.printf("%d번 글이 수정되었습니다.\n", searchID);
 	}
 
-	public void showdetail(String cmd) {
+	private void showdetail() {
 		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
 		Article foundarticle = matched_article(searchID);
@@ -129,8 +145,14 @@ public class ArticleController {
 		System.out.printf("조회수 : %d\n", foundarticle.Hit);
 	}
 
-	public void dodelete(String cmd) {
+	private void dodelete() {
 		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
 		Article foundarticle = matched_article(searchID);
@@ -153,9 +175,14 @@ public class ArticleController {
 		}
 		return null;
 	}
-
-
-
 	
+	public void makeTestData() {
+
+		articles.add(new Article(1, Util.getDate(), "제목1", "내용1", 10));
+		articles.add(new Article(2, Util.getDate(), "제목2", "내용2", 20));
+		articles.add(new Article(3, Util.getDate(), "제목3", "내용3", 30));
+
+		System.out.println("게시물 테스트 데이터를 생성합니다.");
+	}
 
 }
