@@ -13,8 +13,8 @@ public class ArticleController extends Controller{
 	private List<Article> articles;
 	private int lastarticleid;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 		lastarticleid = 3;
 	}

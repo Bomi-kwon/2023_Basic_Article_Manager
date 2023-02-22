@@ -1,31 +1,20 @@
 package com.koreaIT.java.BAM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.controller.ArticleController;
 import com.koreaIT.java.BAM.controller.Controller;
 import com.koreaIT.java.BAM.controller.MemberController;
-import com.koreaIT.java.BAM.dto.Article;
-import com.koreaIT.java.BAM.dto.Member;
 
 public class App {
-	private List<Article> articles;
-	private List<Member> members;
-
-	App() {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
-	}
 
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
 		Scanner sc = new Scanner(System.in);
 
-		MemberController membercontroller = new MemberController(members, sc);
-		ArticleController articlecontroller = new ArticleController(articles, sc);
+		MemberController membercontroller = new MemberController(sc);
+		ArticleController articlecontroller = new ArticleController(sc);
 
 		articlecontroller.makeTestData();
 		membercontroller.makeTestData();
