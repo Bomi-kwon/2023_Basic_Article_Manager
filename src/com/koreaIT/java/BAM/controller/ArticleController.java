@@ -19,7 +19,26 @@ public class ArticleController {
 		this.sc = sc;
 		lastarticleid = 3;
 	}
-
+	
+	public void run(String cmd) {
+		String[] cmdBits = cmd.split(" ");
+		if (cmdBits[1].equals("list")) {
+			this.showlist(cmd);
+		}
+		if (cmdBits[1].equals("write")) {
+			this.dowrite();
+		}
+		if (cmdBits[1].equals("modify")) {
+			this.domodify(cmd);
+		}
+		if (cmdBits[1].equals("detail")) {
+			this.showdetail(cmd);
+		}
+		if (cmdBits[1].equals("delete")) {
+			this.dodelete(cmd);
+		}
+	}
+	
 	public void showlist(String cmd) {
 		if (articles.size() == 0) {
 			System.out.println("게시물이 존재하지 않습니다.");
@@ -134,5 +153,9 @@ public class ArticleController {
 		}
 		return null;
 	}
+
+
+
+	
 
 }

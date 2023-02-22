@@ -17,6 +17,13 @@ public class MemberController {
 		this.sc = sc;
 		lastmemberid = 0;
 	}
+	
+	public void run(String cmd) {
+		String[] cmdBits = cmd.split(" ");
+		if (cmdBits[1].equals("join")) {
+			this.dojoin();
+		}
+	}
 
 	public void dojoin() {
 		String loginID = null;
@@ -78,5 +85,7 @@ public class MemberController {
 		System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
 		
 	}
+
+	
 
 }

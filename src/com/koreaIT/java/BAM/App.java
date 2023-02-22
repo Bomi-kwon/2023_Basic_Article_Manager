@@ -37,27 +37,21 @@ public class App {
 				break;
 			} else if (cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요.");
+			} else if (cmd.length() > 0) {
+				String[] cmdBits = cmd.split(" ");
+				if (cmdBits[0].equals("article")) {
+					articlecontroller.run(cmd);
+				}
+				if (cmdBits[0].equals("member")) {
+					membercontroller.run(cmd);
+				}
 			}
-
-			else if (cmd.startsWith("article list")) {
-				articlecontroller.showlist(cmd);
-			} else if (cmd.equals("article write")) {
-				articlecontroller.dowrite();
-			} else if (cmd.startsWith("article modify ")) {
-				articlecontroller.domodify(cmd);
-			} else if (cmd.startsWith("article detail ")) {
-				articlecontroller.showdetail(cmd);
-			} else if (cmd.startsWith("article delete ")) {
-				articlecontroller.dodelete(cmd);
-			}
-
-			else if (cmd.equals("member join")) {
-				membercontroller.dojoin();
-			}
-
+			
 			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 			}
+
+			
 		}
 
 		System.out.println("== 프로그램 끝 ==");
