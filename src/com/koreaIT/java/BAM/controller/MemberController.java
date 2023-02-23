@@ -11,6 +11,7 @@ public class MemberController extends Controller {
 
 	private List<Member> members;
 	private int lastmemberid;
+	Member foundmember = null;
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -23,6 +24,9 @@ public class MemberController extends Controller {
 		switch (methodname) {
 		case "join":
 			this.dojoin();
+			break;
+		case "login":
+			this.dologin();
 			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
@@ -89,7 +93,43 @@ public class MemberController extends Controller {
 		Member member = new Member(id, regDate, loginID, loginPW, name);
 		members.add(member);
 		System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
+	}
 
+	private void dologin() {
+		while (true) {
+			System.out.printf("로그인 아이디 : ");
+			String loginID = sc.nextLine().trim();
+			if (loginID.length() == 0) {
+				System.out.println("아이디를 입력해주세요.");
+				continue;
+			}
+			for (Member member : members) {
+				if (loginID.equals(member.loginID)) {
+					foundmember = member;
+					break;
+				}
+			}
+			if (foundmember == null) {
+				System.out.println("존재하지 않는 아이디입니다.");
+				continue;
+			}
+			break;
+		}
+		
+		while (true) {
+			System.out.printf("로그인 비밀번호 : ");
+			String loginPW = sc.nextLine().trim();
+			if (loginPW.length() == 0) {
+				System.out.println("비밀번호를 입력해주세요.");
+				continue;
+			}
+			if (loginPW.equals(foundmember.loginPW) == false) {
+				System.out.println("비밀번호를 확인해주세요.");
+				continue;
+			}
+			System.out.printf("%s님 환영합니다.\n",foundmember.name);
+			break;
+		}
 	}
 
 	public void makeTestData() {
