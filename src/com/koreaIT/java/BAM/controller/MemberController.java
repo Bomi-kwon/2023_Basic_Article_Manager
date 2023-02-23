@@ -31,13 +31,15 @@ public class MemberController extends Controller {
 		case "logout":
 			this.dologout();
 			break;
+		case "profile":
+			this.showprofile();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
 		}
 	}
 
-	
 
 	private void dojoin() {
 		
@@ -108,7 +110,7 @@ public class MemberController extends Controller {
 
 	private void dologin() {
 		
-		if (foundmember != null) {
+		if (islogined()) {
 			System.out.println("로그아웃 후 이용해주세요.");
 			return;
 		}
@@ -123,7 +125,7 @@ public class MemberController extends Controller {
 			
 			foundmember = matched_member(loginID);
 			
-			if (foundmember == null) {
+			if (!islogined()) {
 				System.out.println("존재하지 않는 아이디입니다.");
 				continue;
 			}
@@ -147,13 +149,29 @@ public class MemberController extends Controller {
 	}
 	
 	private void dologout() {
-		if (foundmember == null) {
+		if (!islogined()) {
 			System.out.println("로그인된 회원이 없습니다.");
 			return;
 		}
 		System.out.printf("%s님 로그아웃되었습니다.\n",foundmember.name);
 		foundmember = null;
 	}
+	
+
+	private void showprofile() {
+		if (!islogined()) {
+			System.out.println("로그인된 회원이 없습니다.");
+			return;
+		}
+		
+		System.out.println("== 내 정보 ==");
+		System.out.printf("로그인 아이디 : %s \n",foundmember.loginID);
+		System.out.printf("이름 : %s \n",foundmember.name);
+		
+	}
+	
+	
+	
 	
 	private Member matched_member(String loginID) {
 		for (Member member : members) {
@@ -164,6 +182,10 @@ public class MemberController extends Controller {
 		return null;
 	}
 
+	private boolean islogined() {
+		return foundmember != null;
+	}
+	
 	public void makeTestData() {
 
 		members.add(new Member(1, Util.getDate(), "admin", "123", "짱구"));
