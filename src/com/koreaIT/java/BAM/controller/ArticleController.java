@@ -12,15 +12,18 @@ public class ArticleController extends Controller{
 
 	private List<Article> articles;
 	private int lastarticleid;
+	public Scanner sc;
+	public String cmd;
 
 	public ArticleController(Scanner sc) {
 		this.articles = new ArrayList<>();
 		this.sc = sc;
-		lastarticleid = 3;
+		this.lastarticleid = 3;
 	}
 	
 	public void run(String cmd, String methodname) {
-		
+		this.cmd = cmd;
+	
 		switch(methodname) {
 		case "list":
 			this.showlist();
@@ -29,12 +32,24 @@ public class ArticleController extends Controller{
 			this.showdetail();
 			break;
 		case "write":
+			if (!islogined()) {
+				System.out.println("로그인 후 이용해주세요.");
+				break;
+			}
 			this.dowrite();
 			break;
 		case "modify":
+			if (!islogined()) {
+				System.out.println("로그인 후 이용해주세요.");
+				break;
+			}
 			this.domodify();
 			break;
 		case "delete":
+			if (!islogined()) {
+				System.out.println("로그인 후 이용해주세요.");
+				break;
+			}
 			this.dodelete();
 			break;
 		default:
@@ -66,15 +81,16 @@ public class ArticleController extends Controller{
 				return;
 			}
 		}
-		System.out.println("번호	|	제목	|	날짜	  |	조회수");
+		System.out.println("번호	|제목	|날짜	    |작성자	|조회수");
 		Collections.reverse(matched_articles);
 		for (Article article : matched_articles) {
-			System.out.printf("%d	|	%s	|	%s|	%d\n", article.id, article.title, article.regDate.substring(5, 16),
+			System.out.printf("%d	|%s	|%s|%d		|%d\n", article.id, article.title, article.regDate.substring(5, 16), article.memberid,
 					article.Hit);
 		}
 	}
 
 	private void dowrite() {
+		
 		int id = lastarticleid + 1;
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -82,7 +98,7 @@ public class ArticleController extends Controller{
 		String body = sc.nextLine();
 		String regDate = Util.getDate();
 
-		Article article = new Article(id, regDate, title, body);
+		Article article = new Article(foundmember.id, id, regDate, title, body);
 		articles.add(article);
 
 		lastarticleid = id;
@@ -103,6 +119,11 @@ public class ArticleController extends Controller{
 
 		if (foundarticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", searchID);
+			return;
+		}
+		
+		if (foundarticle.memberid != foundmember.id) {
+			System.out.println("게시물 수정 권한이 없습니다.");
 			return;
 		}
 
@@ -143,6 +164,7 @@ public class ArticleController extends Controller{
 		System.out.printf("제목 : %s\n", foundarticle.title);
 		System.out.printf("내용 : %s\n", foundarticle.body);
 		System.out.printf("조회수 : %d\n", foundarticle.Hit);
+		System.out.printf("작성자ID : %d\n", foundarticle.memberid);
 	}
 
 	private void dodelete() {
@@ -159,6 +181,11 @@ public class ArticleController extends Controller{
 
 		if (foundarticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", searchID);
+			return;
+		}
+		
+		if (foundarticle.memberid != foundmember.id) {
+			System.out.println("게시물 삭제 권한이 없습니다.");
 			return;
 		}
 
@@ -178,9 +205,9 @@ public class ArticleController extends Controller{
 	
 	public void makeTestData() {
 
-		articles.add(new Article(1, Util.getDate(), "제목1", "내용1", 10));
-		articles.add(new Article(2, Util.getDate(), "제목2", "내용2", 20));
-		articles.add(new Article(3, Util.getDate(), "제목3", "내용3", 30));
+		articles.add(new Article(1, 1, Util.getDate(), "제목1", "내용1", 10));
+		articles.add(new Article(1, 2, Util.getDate(), "제목2", "내용2", 20));
+		articles.add(new Article(2, 3, Util.getDate(), "제목3", "내용3", 30));
 
 		System.out.println("게시물 테스트 데이터를 생성합니다.");
 	}

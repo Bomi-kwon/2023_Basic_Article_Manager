@@ -1,13 +1,17 @@
 package com.koreaIT.java.BAM.controller;
 
-import java.util.Scanner;
+import com.koreaIT.java.BAM.dto.Member;
 
-public class Controller {
-	public Scanner sc;
-	public String cmd;
+public abstract class Controller {
 	
-	public void run(String cmd, String methodname) {
-		this.cmd = cmd;
+	public static Member foundmember;
+	
+	public abstract void run(String cmd, String methodname);
+	
+	public boolean islogined() {
+		return foundmember != null;
 	}
+	
+	public abstract void makeTestData();
 	
 }

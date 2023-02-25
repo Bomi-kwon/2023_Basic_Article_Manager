@@ -11,16 +11,17 @@ public class MemberController extends Controller {
 
 	private List<Member> members;
 	private int lastmemberid;
-	Member foundmember = null;
+	public Scanner sc;
+	public String cmd;
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
-		lastmemberid = 3;
+		this.lastmemberid = 3;
 	}
 
 	public void run(String cmd, String methodname) {
-
+		this.cmd = cmd;
 		switch (methodname) {
 		case "join":
 			this.dojoin();
@@ -170,9 +171,6 @@ public class MemberController extends Controller {
 		
 	}
 	
-	
-	
-	
 	private Member matched_member(String loginID) {
 		for (Member member : members) {
 			if (loginID.equals(member.loginID)) {
@@ -182,10 +180,6 @@ public class MemberController extends Controller {
 		return null;
 	}
 
-	private boolean islogined() {
-		return foundmember != null;
-	}
-	
 	public void makeTestData() {
 
 		members.add(new Member(1, Util.getDate(), "admin", "123", "짱구"));
