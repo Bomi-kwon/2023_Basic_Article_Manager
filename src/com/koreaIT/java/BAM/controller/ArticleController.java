@@ -32,24 +32,12 @@ public class ArticleController extends Controller{
 			this.showdetail();
 			break;
 		case "write":
-			if (!islogined()) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			this.dowrite();
 			break;
 		case "modify":
-			if (!islogined()) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			this.domodify();
 			break;
 		case "delete":
-			if (!islogined()) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			this.dodelete();
 			break;
 		default:

@@ -8,7 +8,7 @@ public abstract class Controller {
 	
 	public abstract void run(String cmd, String methodname);
 	
-	public boolean islogined() {
+	public static boolean islogined() {
 		return foundmember != null;
 	}
 	

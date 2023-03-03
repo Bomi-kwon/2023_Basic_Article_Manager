@@ -40,8 +40,26 @@ public class App {
 				
 				if (controllername.equals("article")) {
 					controller = articlecontroller;
+					if (methodname.equals("write") || methodname.equals("modify") || methodname.equals("delete")) {
+						if (Controller.islogined() == false) {
+							System.out.println("로그인 후 이용해주세요.");
+							continue;
+						}
+					}
 				} else if (controllername.equals("member")) {
 					controller = membercontroller;
+					if (methodname.equals("join") || methodname.equals("login")) {
+						if (Controller.islogined()) {
+							System.out.println("로그아웃 후 이용해주세요.");
+							continue;
+						}
+					}
+					else if (methodname.equals("logout") || methodname.equals("profile")) {
+						if (Controller.islogined() == false) {
+							System.out.println("로그인된 회원이 없습니다.");
+							continue;
+						}
+					}
 				} else {
 					System.out.println("존재하지 않는 명령어입니다.");
 					continue;

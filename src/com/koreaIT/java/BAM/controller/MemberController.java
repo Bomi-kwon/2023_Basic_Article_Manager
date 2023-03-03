@@ -44,11 +44,6 @@ public class MemberController extends Controller {
 
 	private void dojoin() {
 		
-		if (foundmember != null) {
-			System.out.println("로그아웃 후 이용해주세요.");
-			return;
-		}
-		
 		String loginID = null;
 		String loginPW = null;
 		String name = null;
@@ -111,11 +106,6 @@ public class MemberController extends Controller {
 
 	private void dologin() {
 		
-		if (islogined()) {
-			System.out.println("로그아웃 후 이용해주세요.");
-			return;
-		}
-		
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
 			String loginID = sc.nextLine().trim();
@@ -150,20 +140,12 @@ public class MemberController extends Controller {
 	}
 	
 	private void dologout() {
-		if (!islogined()) {
-			System.out.println("로그인된 회원이 없습니다.");
-			return;
-		}
 		System.out.printf("%s님 로그아웃되었습니다.\n",foundmember.name);
 		foundmember = null;
 	}
 	
 
 	private void showprofile() {
-		if (!islogined()) {
-			System.out.println("로그인된 회원이 없습니다.");
-			return;
-		}
 		
 		System.out.println("== 내 정보 ==");
 		System.out.printf("로그인 아이디 : %s \n",foundmember.loginID);
