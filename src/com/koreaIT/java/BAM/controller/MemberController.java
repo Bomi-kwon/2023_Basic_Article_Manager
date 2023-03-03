@@ -10,14 +10,12 @@ import com.koreaIT.java.BAM.util.Util;
 public class MemberController extends Controller {
 
 	private List<Member> members;
-	private int lastmemberid;
 	public Scanner sc;
 	public String cmd;
 
 	public MemberController(Scanner sc) {
 		this.members = Container.memberDao.members;
 		this.sc = sc;
-		this.lastmemberid = 3;
 	}
 
 	public void run(String cmd, String methodname) {
@@ -46,8 +44,7 @@ public class MemberController extends Controller {
 		String loginID = null;
 		String loginPW = null;
 		String name = null;
-		int id = lastmemberid + 1;
-		lastmemberid = id;
+		int id = Container.memberDao.getLastId();
 
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
@@ -97,9 +94,8 @@ public class MemberController extends Controller {
 		}
 		String regDate = Util.getDate();
 
-		id++;
 		Member member = new Member(id, regDate, loginID, loginPW, name);
-		members.add(member);
+		Container.memberDao.add(member);
 		System.out.printf("환영합니다. %s 회원의 가입이 완료되었습니다.\n", name);
 	}
 
@@ -163,9 +159,9 @@ public class MemberController extends Controller {
 
 	public void makeTestData() {
 
-		members.add(new Member(1, Util.getDate(), "admin", "123", "짱구"));
-		members.add(new Member(2, Util.getDate(), "test1", "456", "철수"));
-		members.add(new Member(3, Util.getDate(), "test2", "789", "훈이"));
+		Container.memberDao.add(new Member(Container.memberDao.getLastId(), Util.getDate(), "admin", "123", "짱구"));
+		Container.memberDao.add(new Member(Container.memberDao.getLastId(), Util.getDate(), "test1", "456", "철수"));
+		Container.memberDao.add(new Member(Container.memberDao.getLastId(), Util.getDate(), "test2", "789", "훈이"));
 
 		System.out.println("회원 테스트 데이터를 생성합니다.");
 	}

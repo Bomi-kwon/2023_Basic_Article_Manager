@@ -13,14 +13,12 @@ import com.koreaIT.java.BAM.util.Util;
 public class ArticleController extends Controller{
 
 	private List<Article> articles;
-	private int lastarticleid;
 	public Scanner sc;
 	public String cmd;
 
 	public ArticleController(Scanner sc) {
 		this.articles = Container.articleDao.articles;
 		this.sc = sc;
-		this.lastarticleid = 3;
 	}
 	
 	public void run(String cmd, String methodname) {
@@ -93,7 +91,7 @@ public class ArticleController extends Controller{
 
 	private void dowrite() {
 		
-		int id = lastarticleid + 1;
+		int id = Container.articleDao.getLastId();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -101,9 +99,9 @@ public class ArticleController extends Controller{
 		String regDate = Util.getDate();
 
 		Article article = new Article(foundmember.id, id, regDate, title, body);
-		articles.add(article);
+		
+		Container.articleDao.add(article);
 
-		lastarticleid = id;
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}
 
@@ -160,13 +158,24 @@ public class ArticleController extends Controller{
 		}
 
 		foundarticle.increaseHit();
+		
+		String writerName = null;
+		
+		List<Member> members = Container.memberDao.members;
+		
+		for(Member member : members) {
+			if(foundarticle.memberid == member.id) {
+				writerName = member.name;
+				break;
+			}
+		}
 
 		System.out.printf("번호 : %d\n", foundarticle.id);
 		System.out.printf("날짜 : %s\n", foundarticle.regDate.substring(0, 10));
 		System.out.printf("제목 : %s\n", foundarticle.title);
 		System.out.printf("내용 : %s\n", foundarticle.body);
 		System.out.printf("조회수 : %d\n", foundarticle.Hit);
-		System.out.printf("작성자ID : %d\n", foundarticle.memberid);
+		System.out.printf("작성자 : %s\n", writerName);
 	}
 
 	private void dodelete() {
@@ -207,9 +216,9 @@ public class ArticleController extends Controller{
 	
 	public void makeTestData() {
 
-		articles.add(new Article(1, 1, Util.getDate(), "제목1", "내용1", 10));
-		articles.add(new Article(1, 2, Util.getDate(), "제목2", "내용2", 20));
-		articles.add(new Article(2, 3, Util.getDate(), "제목3", "내용3", 30));
+		Container.articleDao.add(new Article(1, Container.articleDao.getLastId(), Util.getDate(), "제목1", "내용1", 10));
+		Container.articleDao.add(new Article(1, Container.articleDao.getLastId(), Util.getDate(), "제목2", "내용2", 20));
+		Container.articleDao.add(new Article(2, Container.articleDao.getLastId(), Util.getDate(), "제목3", "내용3", 30));
 
 		System.out.println("게시물 테스트 데이터를 생성합니다.");
 	}
