@@ -17,7 +17,19 @@ public class ArticleDao extends Dao{
 		lastId++;
 	}
 
-	public int getLastId() {
-		return lastId + 1;
+	public List<Article> getMatchedArticles(String searchBits) {
+		
+		if (searchBits != null) {
+
+			List<Article> matched_articles = new ArrayList<>();
+
+			for (Article article : articles) {
+				if (article.title.contains(searchBits)) {
+					matched_articles.add(article);
+				}
+			}
+			return matched_articles;
+		}
+		return articles;
 	}
 }

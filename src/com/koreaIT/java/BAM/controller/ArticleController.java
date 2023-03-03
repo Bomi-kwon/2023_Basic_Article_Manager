@@ -1,6 +1,5 @@
 package com.koreaIT.java.BAM.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -47,28 +46,15 @@ public class ArticleController extends Controller{
 	}
 	
 	private void showlist() {
-		if (articles.size() == 0) {
-			System.out.println("게시물이 존재하지 않습니다.");
-			return;
-		}
 
 		String searchBits = cmd.substring("article list".length()).trim();
-		List<Article> matched_articles = new ArrayList<>(articles);
+		List<Article> matched_articles = Container.articleService.getMatchedArticles(searchBits);
 
-		if (searchBits.length() > 0) {
-
-			matched_articles.clear();
-
-			for (Article article : articles) {
-				if (article.title.contains(searchBits)) {
-					matched_articles.add(article);
-				}
-			}
-			if (matched_articles.size() == 0) {
-				System.out.printf("%s가 포함된 게시물이 없습니다.\n", searchBits);
-				return;
-			}
+		if (matched_articles.size() == 0) {
+			System.out.println("게시글이 없습니다.");
+			return;
 		}
+		
 		System.out.println("번호	|제목	|날짜	    |작성자	|조회수");
 		Collections.reverse(matched_articles);
 		for (Article article : matched_articles) {
