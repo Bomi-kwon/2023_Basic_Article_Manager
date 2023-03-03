@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.koreaIT.java.BAM.container.Container;
 import com.koreaIT.java.BAM.dto.Article;
+import com.koreaIT.java.BAM.dto.Member;
 import com.koreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller{
@@ -16,7 +18,7 @@ public class ArticleController extends Controller{
 	public String cmd;
 
 	public ArticleController(Scanner sc) {
-		this.articles = new ArrayList<>();
+		this.articles = Container.articleDao.articles;
 		this.sc = sc;
 		this.lastarticleid = 3;
 	}
@@ -72,7 +74,19 @@ public class ArticleController extends Controller{
 		System.out.println("번호	|제목	|날짜	    |작성자	|조회수");
 		Collections.reverse(matched_articles);
 		for (Article article : matched_articles) {
-			System.out.printf("%d	|%s	|%s|%d		|%d\n", article.id, article.title, article.regDate.substring(5, 16), article.memberid,
+			
+			String writerName = null;
+			
+			List<Member> members = Container.memberDao.members;
+			
+			for(Member member : members) {
+				if(article.memberid == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+			
+			System.out.printf("%d	|%s	|%s|%s	|%d\n", article.id, article.title, article.regDate.substring(5, 16), writerName,
 					article.Hit);
 		}
 	}
