@@ -5,15 +5,21 @@ import java.util.Scanner;
 
 import com.koreaIT.java.BAM.container.Container;
 import com.koreaIT.java.BAM.dto.Article;
+import com.koreaIT.java.BAM.service.ArticleService;
+import com.koreaIT.java.BAM.service.MemberService;
 import com.koreaIT.java.BAM.util.Util;
 
 public class ArticleController extends Controller{
 
 	public Scanner sc;
 	public String cmd;
+	private ArticleService articleService;
+	private MemberService memberService;
 
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
+		this.articleService = Container.articleService;
+		this.memberService = Container.memberService;
 	}
 	
 	public void run(String cmd, String methodname) {
@@ -44,7 +50,7 @@ public class ArticleController extends Controller{
 	private void showlist() {
 
 		String searchBits = cmd.substring("article list".length()).trim();
-		List<Article> matched_articles = Container.articleService.getMatchedArticles(searchBits);
+		List<Article> matched_articles = articleService.getMatchedArticles(searchBits);
 
 		if (matched_articles.size() == 0) {
 			System.out.println("게시글이 없습니다.");
@@ -56,7 +62,7 @@ public class ArticleController extends Controller{
 			
 			Article article = matched_articles.get(i);
 			
-			String writerName = Container.memberService.getWriterName(article.memberid);
+			String writerName = memberService.getWriterName(article.memberid);
 			
 			System.out.printf("%d	|%s	|%s|%s	|%d\n", article.id, article.title, article.regDate.substring(5, 16), writerName,
 					article.Hit);
@@ -65,7 +71,7 @@ public class ArticleController extends Controller{
 
 	private void dowrite() {
 		
-		int id = Container.articleService.getLastId();
+		int id = articleService.getLastId();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -74,7 +80,7 @@ public class ArticleController extends Controller{
 
 		Article article = new Article(foundmember.id, id, regDate, title, body);
 		
-		Container.articleService.add(article);
+		articleService.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다.\n", id);
 	}
@@ -89,7 +95,7 @@ public class ArticleController extends Controller{
 		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
-		Article foundarticle = Container.articleService.getArticleById(searchID);
+		Article foundarticle = articleService.getArticleById(searchID);
 
 		if (foundarticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", searchID);
@@ -107,7 +113,7 @@ public class ArticleController extends Controller{
 		String body = sc.nextLine();
 		String regDate = Util.getDate();
 
-		Container.articleService.articleModify(foundarticle, title, body, regDate);
+		articleService.articleModify(foundarticle, title, body, regDate);
 
 		System.out.printf("%d번 글이 수정되었습니다.\n", searchID);
 	}
@@ -122,7 +128,7 @@ public class ArticleController extends Controller{
 		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
-		Article foundarticle = Container.articleService.getArticleById(searchID);
+		Article foundarticle = articleService.getArticleById(searchID);
 
 		if (foundarticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", searchID);
@@ -131,7 +137,7 @@ public class ArticleController extends Controller{
 
 		foundarticle.increaseHit();
 		
-		String writerName = Container.memberService.getWriterName(foundarticle.memberid);
+		String writerName = memberService.getWriterName(foundarticle.memberid);
 		
 		System.out.printf("번호 : %d\n", foundarticle.id);
 		System.out.printf("날짜 : %s\n", foundarticle.regDate.substring(0, 10));
@@ -151,7 +157,7 @@ public class ArticleController extends Controller{
 		
 		int searchID = Integer.parseInt(cmdBits[2]);
 
-		Article foundarticle = Container.articleService.getArticleById(searchID);
+		Article foundarticle = articleService.getArticleById(searchID);
 
 		if (foundarticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", searchID);
@@ -162,7 +168,7 @@ public class ArticleController extends Controller{
 			System.out.println("게시물 삭제 권한이 없습니다.");
 			return;
 		}
-		Container.articleService.remove(foundarticle);
+		articleService.remove(foundarticle);
 
 		System.out.printf("%d번 게시물이 삭제되었습니다.\n", searchID);
 	}
