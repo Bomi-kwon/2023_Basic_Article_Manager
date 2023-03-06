@@ -6,7 +6,7 @@ import java.util.List;
 import com.koreaIT.java.BAM.dto.Article;
 
 public class ArticleDao extends Dao{
-	public List<Article> articles;
+	private List<Article> articles;
 	
 	public ArticleDao() {
 		this.articles = new ArrayList<>();
@@ -31,5 +31,25 @@ public class ArticleDao extends Dao{
 			return matched_articles;
 		}
 		return articles;
+	}
+	
+	public Article matched_article(int searchID) {
+		for (Article article : articles) {
+			if (searchID == article.id) {
+				return article;
+			}
+		}
+		return null;
+	}
+
+	public void remove(Article foundarticle) {
+		articles.remove(foundarticle);
+	}
+
+	public void articleModify(Article foundarticle, String title, String body, String regDate) {
+		foundarticle.title = title;
+		foundarticle.body = body;
+		foundarticle.regDate = regDate;
+		
 	}
 }

@@ -11,4 +11,25 @@ public class ArticleService {
 		return Container.articleDao.getMatchedArticles(searchBits);
 	}
 
+	public int getLastId() {
+		return Container.articleDao.getLastId();
+	}
+
+	public void add(Article article) {
+		Container.articleDao.add(article);
+	}
+
+	public Article getArticleById(int searchID) {
+		
+		return Container.articleDao.matched_article(searchID);
+	}
+
+	public void remove(Article foundarticle) {
+		Container.articleDao.remove(foundarticle);
+	}
+
+	public void articleModify(Article foundarticle, String title, String body, String regDate) {
+		Container.articleDao.articleModify(foundarticle, title, body, regDate);
+	}
+
 }
