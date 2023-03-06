@@ -19,7 +19,7 @@ public class ArticleDao extends Dao{
 
 	public List<Article> getMatchedArticles(String searchBits) {
 		
-		if (searchBits != null) {
+		if (searchBits.length() > 0) {
 
 			List<Article> matched_articles = new ArrayList<>();
 
