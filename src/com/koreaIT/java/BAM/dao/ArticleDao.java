@@ -52,4 +52,16 @@ public class ArticleDao extends Dao{
 		foundarticle.regDate = regDate;
 		
 	}
+
+	public List<Article> getArticleByMemberId(int id) {
+		
+		List<Article> matched_articles = new ArrayList<>();
+		
+		for (Article article : articles) {
+			if (id == article.memberid) {
+				matched_articles.add(article);
+			}
+		}
+		return matched_articles;
+	}
 }

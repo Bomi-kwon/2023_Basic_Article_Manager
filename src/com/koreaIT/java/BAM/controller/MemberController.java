@@ -1,10 +1,13 @@
 package com.koreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.container.Container;
+import com.koreaIT.java.BAM.dto.Article;
 import com.koreaIT.java.BAM.dto.Member;
+import com.koreaIT.java.BAM.service.ArticleService;
 import com.koreaIT.java.BAM.service.MemberService;
 import com.koreaIT.java.BAM.util.Util;
 
@@ -13,10 +16,12 @@ public class MemberController extends Controller {
 	public Scanner sc;
 	public String cmd;
 	private MemberService memberService;
+	private ArticleService articleService;
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		this.memberService = Container.memberService;
+		this.articleService = Container.articleService;
 	}
 
 	public void run(String cmd, String methodname) {
@@ -146,6 +151,18 @@ public class MemberController extends Controller {
 		System.out.println("== 내 정보 ==");
 		System.out.printf("로그인 아이디 : %s \n", foundmember.loginID);
 		System.out.printf("이름 : %s \n", foundmember.name);
+		
+		List<Article> matched_articles = articleService.getArticleByMemberId(foundmember.id);
+		
+		if (matched_articles.size() == 0) {
+			System.out.println("작성한 게시글 : 0개");
+			return;
+		}
+		System.out.printf("게시물 갯수 : %d\n", matched_articles.size());
+		System.out.println("== 내가 작성한 게시물 제목== ");
+		for (Article article : matched_articles) {
+			System.out.printf("%s\n", article.title);
+		}
 
 	}
 	

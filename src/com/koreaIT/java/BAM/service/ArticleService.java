@@ -39,4 +39,8 @@ public class ArticleService {
 		articleDao.articleModify(foundarticle, title, body, regDate);
 	}
 
+	public List<Article> getArticleByMemberId(int id) {
+		return articleDao.getArticleByMemberId(id);
+	}
+
 }
