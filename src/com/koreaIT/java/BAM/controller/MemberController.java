@@ -1,5 +1,6 @@
 package com.koreaIT.java.BAM.controller;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.koreaIT.java.BAM.container.Container;
@@ -33,11 +34,16 @@ public class MemberController extends Controller {
 		case "profile":
 			this.showprofile();
 			break;
+		case "list":
+			this.showlist();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
 		}
 	}
+
+	
 
 	private void dojoin() {
 
@@ -141,6 +147,32 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 아이디 : %s \n", foundmember.loginID);
 		System.out.printf("이름 : %s \n", foundmember.name);
 
+	}
+	
+	private void showlist() {
+		if (!foundmember.loginID.equals("admin")) {
+			System.out.println("회원 조회 권한은 관리자에게만 있습니다.");
+			return;
+		}
+		
+		String searchBits = cmd.substring("member list".length()).trim();
+		List<Member> matched_members = memberService.getMatchedMembers(searchBits);
+		
+		if (matched_members.size() == 0) {
+			System.out.println("회원 정보가 없습니다.");
+			return;
+		}
+		System.out.println("== 회원 정보 ==");
+		System.out.println("번호	|	아이디	|	이름	|	가입날짜");
+		for (int i = matched_members.size() - 1 ; i >= 0 ; i--) {
+			
+			Member member = matched_members.get(i);
+			
+			System.out.printf("%d	|	%s	|	%s	|	%s\n",member.id, member.loginID, member.loginPW, member.regDate.substring(5, 16));
+		}
+		
+		
+		
 	}
 	
 	public void makeTestData() {

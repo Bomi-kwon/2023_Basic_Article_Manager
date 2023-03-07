@@ -43,4 +43,20 @@ public class MemberDao extends Dao{
 		}
 		return null;
 	}
+
+	public List<Member> getMatchedMembers(String searchBits) {
+		
+		if(searchBits.length() > 0) {
+			List<Member> matched_members = new ArrayList<>();
+			
+			for(Member member : members) {
+				
+				if (member.name.contains(searchBits)) {
+					matched_members.add(member);
+				}
+				return matched_members;
+			}
+		}
+		return members;
+	}
 }

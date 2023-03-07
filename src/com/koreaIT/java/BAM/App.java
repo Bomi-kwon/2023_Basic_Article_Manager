@@ -54,9 +54,9 @@ public class App {
 							continue;
 						}
 					}
-					else if (methodname.equals("logout") || methodname.equals("profile")) {
+					else if (methodname.equals("logout") || methodname.equals("profile") || methodname.equals("list")) {
 						if (Controller.islogined() == false) {
-							System.out.println("로그인된 회원이 없습니다.");
+							System.out.println("로그인 후 이용해주세요.");
 							continue;
 						}
 					}
