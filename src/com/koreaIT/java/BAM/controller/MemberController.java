@@ -1,6 +1,5 @@
 package com.koreaIT.java.BAM.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,13 +41,14 @@ public class MemberController extends Controller {
 		case "list":
 			this.showlist();
 			break;
+		case "drop":
+			this.dodrop();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
 		}
 	}
-
-	
 
 	private void dojoin() {
 
@@ -187,10 +187,14 @@ public class MemberController extends Controller {
 			
 			System.out.printf("%d	|	%s	|	%s	|	%s\n",member.id, member.loginID, member.loginPW, member.regDate.substring(5, 16));
 		}
-		
-		
-		
 	}
+	
+	private void dodrop() {
+		System.out.printf("%s 회원이 탈퇴하였습니다.\n",foundmember.name);
+		memberService.remove(foundmember);
+		foundmember = null;
+	}
+	
 	
 	public void makeTestData() {
 

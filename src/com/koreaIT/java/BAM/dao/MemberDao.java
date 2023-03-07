@@ -59,4 +59,8 @@ public class MemberDao extends Dao{
 		}
 		return members;
 	}
+
+	public void remove(Member foundmember) {
+		members.remove(foundmember);
+	}
 }

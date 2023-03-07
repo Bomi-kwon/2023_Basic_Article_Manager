@@ -38,4 +38,8 @@ public class MemberService {
 		return memberDao.getMatchedMembers(searchBits);
 	}
 
+	public void remove(Member foundmember) {
+		memberDao.remove(foundmember);
+	}
+
 }

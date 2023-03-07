@@ -54,7 +54,7 @@ public class App {
 							continue;
 						}
 					}
-					else if (methodname.equals("logout") || methodname.equals("profile") || methodname.equals("list")) {
+					else if (methodname.equals("logout") || methodname.equals("profile") || methodname.equals("list") || methodname.equals("drop")) {
 						if (Controller.islogined() == false) {
 							System.out.println("로그인 후 이용해주세요.");
 							continue;
