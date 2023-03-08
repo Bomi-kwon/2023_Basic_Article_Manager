@@ -58,7 +58,7 @@ public class ArticleDao extends Dao{
 		List<Article> matched_articles = new ArrayList<>();
 		
 		for (Article article : articles) {
-			if (id == article.memberid) {
+			if (id == article.memberId) {
 				matched_articles.add(article);
 			}
 		}
